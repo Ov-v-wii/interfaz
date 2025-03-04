@@ -1,5 +1,42 @@
 aqui esta mi codigo de esamblador 
 
+; Definir las direcciones de memoria donde están los números
+NUM1 = 0x10
+NUM2 = 0x11
+NUM3 = 0x12
+
+; Cargar los tres números en los registros
+lod Ra, NUM1      ; Cargar el primer número en Ra
+lod Rb, NUM2      ; Cargar el segundo número en Rb
+add Ra            ; Sumar el valor de Rb a Ra (Ra = NUM1 + NUM2)
+lod Rc, NUM3      ; Cargar el tercer número en Rc
+add Ra            ; Sumar el valor de Rc a Ra (Ra = NUM1 + NUM2 + NUM3)
+
+; Dividir la suma por 3
+; Para esto, podemos usar una aproximación simple: restar 3 en un ciclo
+; y contar cuántas veces lo hacemos para obtener el cociente.
+
+; Inicializamos el divisor
+mvb #3           ; Rb = 3 (el divisor)
+
+; Empezamos la división
+clr Rd            ; Limpiamos Rd (se usará para contar las divisiones)
+.loop:
+    sub Ra, Rb    ; Restamos 3 de Ra
+    cmp Ra        ; Comparamos el resultado con 0
+    jn .done      ; Si Ra es negativo, terminamos la división
+    inc Rd        ; Incrementamos el contador (Rd)
+    jmp .loop     ; Continuamos el ciclo
+
+.done:
+; Ahora el resultado de la división está en Rd, que es el promedio
+; Guardamos el resultado en memoria o en el registro deseado
+mov Ra, Rd        ; Guardamos el promedio en Ra
+
+; Finalizamos
+hlt
+
+#Explicaicon 
 
 primero se definen tres posiciones de memoria donde se almacenan los números de entrada.
 
